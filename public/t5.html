@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title></title>
+
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+  <!-- let's include the css file for bootstrap, then our custom css -->
+  <link rel="stylesheet" type="text/css" href="vendors/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  
+  <!-- let's also include these jquery scripts. -->
+  <script src="vendors/jquery/jquery-3.3.1.min.js"></script>
+  <script src="vendors/jquery-ui/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <a href="index.html" class="btn btn-light float-right">
+              Back
+          </a>
+      </div>
+  </div>
+  
+  <!-- Your weather forecast here! -->
+  <br><br>
+  <h1>KAIST Weather Forecast</h1>
+  <br><br>
+  <h1>Location</h1>
+  <h2 id="loc"></h2>
+  <br><br>
+  <h1>NOW</h1>
+  <h2 id="t0"></h2>
+  <h2 id="W0"></h2>
+  <h2 id="T0"></h2>
+  <h2 id="v0"></h2>
+  <br><br>
+  <h1>FORECAST</h1>
+  <h2 id="t1"></h2>
+  <h2 id="W1"></h2>
+  <h2 id="T1"></h2>
+  <h2 id="v1"></h2>
+  <br><br>
+  <h2 id="t2"></h2>
+  <h2 id="W2"></h2>
+  <h2 id="T2"></h2>
+  <h2 id="v2"></h2>
+  <br><br>
+  <h2 id="t3"></h2>
+  <h2 id="W3"></h2>
+  <h2 id="T3"></h2>
+  <h2 id="v3"></h2>
+  <br><br>
+  <h2 id="t4"></h2>
+  <h2 id="W4"></h2>
+  <h2 id="T4"></h2>
+  <h2 id="v4"></h2>
+  <br><br>
+  <h2 id="t5"></h2>
+  <h2 id="W5"></h2>
+  <h2 id="T5"></h2>
+  <h2 id="v5"></h2>
+  <br><br>
+  <h2 id="t6"></h2>
+  <h2 id="W6"></h2>
+  <h2 id="T6"></h2>
+  <h2 id="v6"></h2>
+  <br><br>
+  <h2 id="t7"></h2>
+  <h2 id="W7"></h2>
+  <h2 id="T7"></h2>
+  <h2 id="v7"></h2>
+  <br><br>
+  <h2 id="t8"></h2>
+  <h2 id="W8"></h2>
+  <h2 id="T8"></h2>
+  <h2 id="v8"></h2>
+  <br><br>
+<script type="text/javascript">
+// your solution here
+function drawWeather( d ) {
+  var location = d.city.name + ", " + d.city.country;
+  document.getElementById('loc').innerHTML = location;
+
+  for (var i=0; i<9; i++) {
+    var unix_timestamp = d.list[i].dt;
+    var date = new Date(unix_timestamp * 1000);
+    var weather = d.list[i].weather[0].description;
+	  var celcius = Math.round(parseFloat(d.list[0].main.temp)-273.15);
+    var speed = d.list[i].wind.speed;
+  
+    document.getElementById('t'+String(i)).innerHTML = date;
+	  document.getElementById('W'+String(i)).innerHTML = weather;
+	  document.getElementById('T'+String(i)).innerHTML = celcius + '&deg;C';
+	  document.getElementById('v'+String(i)).innerHTML = speed + "m/s";
+  }
+
+}
+function weatherBalloon(lat, lon) {
+  var key = 'b8f2b7c429196259842905e455f9b9b7';
+  fetch('https://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&appid='+key)  
+  .then(function(resp) { return resp.json() }) // Convert data to json
+  .then(function(data) {
+    console.log(data);
+    drawWeather(data);
+  })
+  .catch(function() {
+    // catch any errors
+  });
+}
+
+window.onload = function() {
+  weatherBalloon(36.3504119, 127.3845475);
+}
+</script>
+</body>
+</html>
+
+<!--b8f2b7c429196259842905e455f9b9b7-->
+
+<!--
+api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid=b8f2b7c429196259842905e455f9b9b7
+
+
+    url: "api.openweathermap.org/data/2.5/forecast",
+    data: {
+      lat: 35,
+      lon: 139,
+    },
+    headers: {
+      Authorization: "appid b8f2b7c429196259842905e455f9b9b7"
+    },
+
+{"cod":"200","message":0,"cnt":40,
+"list":[
+
+{"dt":1657087200,
+"main":{"temp":299.99,"feels_like":302.21,"temp_min":298.7,"temp_max":299.99,
+"pressure":1006,"sea_level":1006,"grnd_level":979,"humidity":76,"temp_kf":1.29},
+"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],
+"clouds":{"all":79},"wind":{"speed":1.7,"deg":306,"gust":1.8},
+"visibility":10000,"pop":0.48,"rain":{"3h":1.75},"sys":{"pod":"d"},
+"dt_txt":"2022-07-06 06:00:00"},
+
+{"dt":1657098000,
+"main":{"temp":298.13,"feels_like":298.9,"temp_min":296.87,"temp_max":298.13,"pressure":1007,"sea_level":1007,"grnd_level":980,"humidity":85,"temp_kf":1.26},"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"clouds":{"all":88},"wind":{"speed":1.88,"deg":300,"gust":2.1},"visibility":7405,"pop":0.76,"rain":{"3h":3.31},"sys":{"pod":"d"},"dt_txt":"2022-07-06 09:00:00"},{"dt":1657108800,"main":{"temp":296.04,"feels_like":296.81,"temp_min":296.04,"temp_max":296.04,"pressure":1009,"sea_level":1009,"grnd_level":982,"humidity":93,"temp_kf":0},"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10n"}],"clouds":{"all":97},"wind":{"speed":0.79,"deg":65,"gust":0.9},"visibility":10000,"pop":0.8,"rain":{"3h":2.13},"sys":{"pod":"n"},"dt_txt":"2022-07-06 12:00:00"},{"dt":1657119600,"main":{"temp":295.21,"feels_like":295.93,"temp_min":295.21,"temp_max":295.21,"pressure":1009,"sea_level":1009,"grnd_level":981,"humidity":94,"temp_kf":0},"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10n"}],"clouds":
+
+-->
+
+
+
+
